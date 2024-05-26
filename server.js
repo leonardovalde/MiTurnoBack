@@ -4,11 +4,13 @@ const morgan = require("morgan");
 const clientSession = require("client-sessions");
 const helmet = require("helmet");
 
-const cors = require("cors");
 const { SESSION_SECRET } = require("./config");
 
 const app = express();
 const api = require("./src/api");
+
+const cors = require("cors");
+app.use(cors());
 
 app.get("/", (request, response) => response.sendStatus(200));
 app.get("/health", (request, response) => response.sendStatus(200));
@@ -23,7 +25,6 @@ app.use(
   })
 );
 app.use(helmet());
-app.use(cors());
 
 app.use(api);
 
