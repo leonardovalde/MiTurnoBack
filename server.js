@@ -1,27 +1,29 @@
-const express = require('express');
+const express = require("express");
 
-const morgan = require('morgan');
-const clientSession = require('client-sessions');
-const helmet = require('helmet');
+const morgan = require("morgan");
+const clientSession = require("client-sessions");
+const helmet = require("helmet");
 
-const {SESSION_SECRET} = require('./config');
+const cors = require("cors");
+const { SESSION_SECRET } = require("./config");
 
 const app = express();
-const api = require('./src/api');
+const api = require("./src/api");
 
-app.get('/', (request, response) => response.sendStatus(200));
-app.get('/health', (request, response) => response.sendStatus(200));
+app.get("/", (request, response) => response.sendStatus(200));
+app.get("/health", (request, response) => response.sendStatus(200));
 
-app.use(morgan('short'));
+app.use(morgan("short"));
 app.use(express.json());
 app.use(
   clientSession({
-    cookieName: 'session',
+    cookieName: "session",
     secret: SESSION_SECRET,
-    duration: 24 * 60 * 60 * 1000
+    duration: 24 * 60 * 60 * 1000,
   })
 );
 app.use(helmet());
+app.use(cors());
 
 app.use(api);
 
@@ -35,5 +37,5 @@ module.exports = {
   },
   stop() {
     server.close();
-  }
+  },
 };
