@@ -5,18 +5,55 @@ const bcrypt = require("bcrypt");
 
 const router = new Router();
 
+// id uuid PRIMARY KEY,
+//     identifier text,
+//     first_name text,
+//     last_name text,
+//     organization text,
+//     address text,
+//     email text UNIQUE,
+//     password text,
+//     role text
+
 router.post("/", async (request, response) => {
   console.log(request.body);
   try {
-    const { email, password, role } = request.body;
+    const {
+      identifier,
+      first_name,
+      last_name,
+      organization,
+      address,
+      email,
+      password,
+      role,
+    } = request.body;
 
-    if (!email || !password || !role) {
+    if (
+      !email ||
+      !password ||
+      !role ||
+      !identifier ||
+      !first_name ||
+      !last_name ||
+      !organization ||
+      !address
+    ) {
       return response
         .status(400)
         .json({ message: "Email and password must be provided" });
     }
 
-    const user = await User.create(email, password, role);
+    const user = await User.create(
+      email,
+      password,
+      role,
+      identifier,
+      first_name,
+      last_name,
+      organization,
+      address
+    );
     if (!user) {
       return response.status(400).json({ message: "User already exists" });
     }

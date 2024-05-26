@@ -4,13 +4,22 @@ const bcrypt = require("bcrypt");
 const db = require("./db");
 
 module.exports = {
-  async create(email, password, role) {
+  async create(
+    email,
+    password,
+    role,
+    identifier,
+    first_name,
+    last_name,
+    organization,
+    address
+  ) {
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
       const { rows } = await db.query(sql`
-      INSERT INTO users (id, email, password, role)
-        VALUES (${uuidv4()}, ${email}, ${hashedPassword}, ${role})
-        RETURNING id, email;
+      INSERT INTO users (id, identifier, first_name, last_name, organization, address, email, password, role )
+        VALUES (${uuidv4()}, ${identifier}, ${first_name}, ${last_name}, ${organization}, ${address}, ${email}, ${hashedPassword}, ${role})
+        RETURNING id, identifier, first_name, last_name, organization, address, email, role;
       `);
 
       const [user] = rows;
@@ -42,7 +51,7 @@ module.exports = {
 
   async findAll() {
     const { rows } = await db.query(sql`
-    SELECT id, email, role FROM users;
+    SELECT * FROM users;
     `);
     // db.end();
     return rows;
