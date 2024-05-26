@@ -14,7 +14,7 @@ module.exports = {
       `);
 
       const [user] = rows;
-      db.end();
+      // db.end();
       return user;
     } catch (error) {
       if (error.constraint === "users_email_key") {
@@ -28,7 +28,7 @@ module.exports = {
     const { rows } = await db.query(sql`
     SELECT * FROM users WHERE email=${email} LIMIT 1;
     `);
-    db.end();
+    // db.end();
     return rows[0];
   },
 
@@ -36,7 +36,7 @@ module.exports = {
     const { rows } = await db.query(sql`
     SELECT * FROM users WHERE id=${id} LIMIT 1;
     `);
-    db.end();
+    // db.end();
     return rows[0];
   },
 
@@ -44,7 +44,7 @@ module.exports = {
     const { rows } = await db.query(sql`
     SELECT id, email, role FROM users;
     `);
-    db.end();
+    // db.end();
     return rows;
   },
   async addShift(userId, shiftTime, description, providerId) {
@@ -54,7 +54,7 @@ module.exports = {
         VALUES (${uuidv4()}, ${userId}, ${shiftTime}, ${description}, ${providerId})
         RETURNING id, shift_time, description, provider_id;
       `);
-      db.end();
+      // db.end();
 
       const [shift] = rows;
       return shift;
@@ -69,7 +69,7 @@ module.exports = {
       VALUES (${uuidv4()}, ${name}, ${description}, ${provider_image})
       RETURNING id, name, description, provider_image;
     `);
-    db.end();
+    // db.end();
     const [provider] = rows;
     return provider;
   },
@@ -78,7 +78,7 @@ module.exports = {
     const { rows } = await db.query(sql`
     SELECT id, name, description, provider_image FROM provider;
     `);
-    db.end();
+    // db.end();
     return rows;
   },
 
@@ -86,7 +86,7 @@ module.exports = {
     const { rows } = await db.query(sql`
     DELETE FROM provider WHERE id=${id} RETURNING id, name, description, provider_image;
     `);
-    db.end();
+    // db.end();
     const [provider] = rows;
     return provider;
   },
@@ -95,14 +95,14 @@ module.exports = {
     const { rows } = await db.query(sql`
     SELECT id, shift_time, description FROM shifts WHERE user_id=${userId};
     `);
-    db.end();
+    // db.end();
     return rows;
   },
   async getAllShifts() {
     const { rows } = await db.query(sql`
     SELECT id, shift_time, description FROM shifts;
     `);
-    db.end();
+    // db.end();
     return rows;
   },
 
@@ -110,7 +110,7 @@ module.exports = {
     const { rows } = await db.query(sql`
     SELECT id, shift_time, description FROM shifts WHERE user_id=${userId};
     `);
-    db.end();
+    // db.end();
     return rows;
   },
 
@@ -118,7 +118,7 @@ module.exports = {
     const { rows } = await db.query(sql`
     DELETE FROM shifts WHERE id=${id} RETURNING id, shift_time, description;
     `);
-    db.end();
+    // db.end();
     const [shift] = rows;
     return shift;
   },
