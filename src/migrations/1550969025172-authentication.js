@@ -1,4 +1,4 @@
-const db = require('../persistence/db');
+const db = require("../persistence/db");
 
 module.exports.up = async function (next) {
   const client = await db.connect();
@@ -7,13 +7,31 @@ module.exports.up = async function (next) {
   CREATE TABLE IF NOT EXISTS users (
     id uuid PRIMARY KEY,
     email text UNIQUE,
-    password text
+    password text,
+    role text
   );
 
   CREATE TABLE IF NOT EXISTS sessions (
     id uuid PRIMARY KEY,
     user_id uuid REFERENCES users (id) ON DELETE CASCADE
   );
+  
+  
+  CREATE TABLE IF NOT EXISTS provider(
+    id uuid PRIMARY KEY,
+    name text,
+    description text,
+    provider_image text
+  );
+
+  CREATE TABLE IF NOT EXISTS shifts (
+    id uuid PRIMARY KEY,
+    user_id uuid REFERENCES users (id) ON DELETE CASCADE,
+    provider_id uuid REFERENCES provider (id) ON DELETE CASCADE,
+    shift_time timestamp,
+    description text
+  );
+
   `);
 
   await client.query(`

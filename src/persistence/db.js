@@ -1,4 +1,4 @@
-const {Pool} = require('pg');
+const { Pool } = require("pg");
 
 module.exports = new Pool({
   max: 10,
