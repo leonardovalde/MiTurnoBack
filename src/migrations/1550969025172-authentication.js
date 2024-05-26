@@ -6,6 +6,11 @@ module.exports.up = async function (next) {
   await client.query(`
   CREATE TABLE IF NOT EXISTS users (
     id uuid PRIMARY KEY,
+    identifier text,
+    first_name text,
+    last_name text,
+    organization text,
+    address text,
     email text UNIQUE,
     password text,
     role text
