@@ -4,6 +4,17 @@ const bcrypt = require("bcrypt");
 const db = require("./db");
 
 module.exports = {
+  async remove(id) {
+    const { rows } = await db.query(sql`
+    DELETE FROM users WHERE id=${id} RETURNING id, identifier, first_name, last_name, organization, address, email, role;
+    `);
+    // db.end();
+    const [user] = rows;
+    return {
+      status: "deleted",
+      user,
+    };
+  },
   async create(
     email,
     password,

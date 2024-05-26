@@ -93,6 +93,19 @@ router.get("/", async (request, response) => {
     response.status(500).json({ message: "Internal Server Error" });
   }
 });
+
+router.delete("/:id", async (request, response) => {
+  try {
+    const { id } = request.params;
+    const user = await User.remove(id);
+    return response.status(200).json(user);
+  } catch (error) {
+    console.error(
+      `removeUser({ id: ${request.params.id} }) >> Error: ${error}`
+    );
+    response.status(500).json({ message: "Internal Server Error" });
+  }
+});
 // router.get("/:email", async (request, response) => {
 //   try {
 //     const { email } = request.params;
