@@ -6,6 +6,7 @@ const db = require("./db");
 module.exports = {
   async remove(id) {
     const { rows } = await db.query(sql`
+    DELETE FROM shifts WHERE user_id=${id};
     DELETE FROM users WHERE id=${id} RETURNING id, identifier, first_name, last_name, organization, address, email, role;
     `);
     // db.end();
