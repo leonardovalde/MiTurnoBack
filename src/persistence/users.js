@@ -120,7 +120,7 @@ module.exports = {
   },
   async getAllShifts() {
     const { rows } = await db.query(sql`
-    SELECT id, shift_time, description FROM shifts;
+    SELECT * FROM shifts;
     `);
     // db.end();
     return rows;
